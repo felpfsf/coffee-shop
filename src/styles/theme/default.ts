@@ -4,7 +4,7 @@ const screens = {
   mobileL: "425px",
   tablet: "768px",
   laptop: "1024px",
-  desktop: "1440px",
+  desktop: "1360px",
   desktopL: "2560px",
 };
 
