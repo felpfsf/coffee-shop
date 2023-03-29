@@ -4,7 +4,7 @@ const screens = {
   mobileL: "425px",
   tablet: "768px",
   laptop: "1024px",
-  desktop: "1360px",
+  desktop: "1440px",
   desktopL: "2560px",
 };
 
@@ -43,15 +43,15 @@ const colors = {
 };
 
 const fontSizes = {
-  micro: 10,
-  tiny: 12,
-  small: 14,
-  base: 16,
-  medium: 18,
-  large: 20,
-  xl: 24,
-  "2xl": 32,
-  "3xl": 48,
+  micro: "10px",
+  tiny: "12px",
+  small: "14px",
+  base: "16px",
+  medium: "18px",
+  large: "20px",
+  xl: "24px",
+  "2xl": "32px",
+  "3xl": "48px",
 };
 
 const fontFamilies = {
@@ -60,8 +60,9 @@ const fontFamilies = {
 };
 
 const fontWeights = {
-  bold: 700,
   regular: 400,
+  bold: 700,
+  "extra-bold": 800,
 };
 
 const fonts = {
