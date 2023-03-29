@@ -2,12 +2,9 @@ import styled from "styled-components";
 
 export const HeroContainer = styled.section`
   position: relative;
+  margin: 0 auto;
   width: 100%;
-  padding-block: 94px;
-  /* border: 1px solid red; */
-  display: flex;
-  justify-content: center;
-  gap: 3.5rem;
+  padding-block: 24px;
   ::before {
     content: "";
     position: absolute;
@@ -16,6 +13,28 @@ export const HeroContainer = styled.section`
     background: url("hero_background.png") no-repeat center;
     background-size: cover;
     filter: blur(80px);
+  }
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    padding-block: 94px;
+  }
+`;
+
+export const HeroWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 3.5rem;
+
+  img {
+    min-width: 320px;
+    max-width: 476px;
+    width: 100%;
+  }
+
+  @media ${({ theme }) => theme.breakpoints.laptop} {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
   }
 `;
 
@@ -40,7 +59,7 @@ export const HeroContent = styled.div`
 `;
 
 export const ItemsGroup = styled.div`
-  margin-top: 66px;
+  margin-top: 48px;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   row-gap: 20px;
