@@ -20,6 +20,7 @@ export const HeroContainer = styled.section`
 `;
 
 export const HeroWrapper = styled.div`
+  padding: 0 1rem;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -35,6 +36,14 @@ export const HeroWrapper = styled.div`
     flex-direction: row;
     align-items: flex-start;
     justify-content: center;
+  }
+
+  @media ${({ theme }) => theme.breakpoints.mobileL} {
+    padding: 0rem 2rem;
+  }
+
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    padding: 0rem 10rem;
   }
 `;
 
