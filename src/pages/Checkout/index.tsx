@@ -3,29 +3,22 @@ import {
   CreditCard,
   CurrencyDollar,
   MapPinLine,
-  Minus,
   Money,
-  Plus,
-  Trash,
 } from "@phosphor-icons/react";
 import {
   CartContainer,
-  CartProduct,
-  CartSummary,
   CheckoutContainer,
   CheckoutForm,
-  Counter,
   FormContainer,
   FormContainerHeader,
   PaymentOptions,
-  ProductActions,
-  ProductInfo,
   RadioButtonGroup,
   RadioButtonItem,
-  RemoveButton,
   SubmitButton,
   Title,
 } from "./style";
+import { CartProduct } from "./components/CartProduct";
+import { CartSummary } from "./components/CartSummary";
 
 export const Checkout = () => {
   return (
@@ -83,50 +76,9 @@ export const Checkout = () => {
       <div>
         <Title>Café selecionados</Title>
         <CartContainer>
-          <CartProduct>
-            <ProductInfo>
-              <img src='/products/expresso.png' alt='' />
-              <div>
-                <p>Expresso Tradicional</p>
-                <ProductActions>
-                  <Counter>
-                    <button>
-                      <Minus />
-                    </button>
-                    <span>1</span>
-                    <button>
-                      <Plus />
-                    </button>
-                  </Counter>
-                  <RemoveButton>
-                    <Trash size={16} />
-                    Remover
-                  </RemoveButton>
-                </ProductActions>
-              </div>
-            </ProductInfo>
-            <p>Price</p>
-          </CartProduct>
-          <CartSummary>
-            <div>
-              <p>Total de itens</p>
-              <p>
-                <span>R$ </span>29,70
-              </p>
-            </div>
-            <div>
-              <p>Entrega</p>
-              <p>
-                <span>R$ </span>3,50
-              </p>
-            </div>
-            <div>
-              <p>Total</p>
-              <p>
-                <span>R$ </span>33,20
-              </p>
-            </div>
-          </CartSummary>
+          <CartProduct />
+          <CartProduct />
+          <CartSummary />
           <SubmitButton type='submit' form='checkout_form'>
             Confirmar Pedido
           </SubmitButton>
