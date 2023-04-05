@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Bank,
   CreditCard,
@@ -19,6 +20,18 @@ import {
   SubmitButton,
 } from "./style";
 import { CartProduct } from "./components/CartProduct";
+
+const products = [
+  {
+    id: 1,
+    imageUrl: "/products/expresso.png",
+    name: "Expresso Tradicional",
+    price: 9.9,
+  },
+  { id: 2, imageUrl: "/products/latte.png", name: "Latte", price: 9.9 },
+  { id: 3, imageUrl: "/products/macchiato.png", name: "Macchiato", price: 9.9 },
+  { id: 4, imageUrl: "/products/capuccino.png", name: "Capuccino", price: 9.9 },
+];
 
 export const Checkout = () => {
   return (
@@ -81,10 +94,12 @@ export const Checkout = () => {
           <Title>Café selecionados</Title>
           <ContentWrapper>
             <SelectedProducts>
-              <CartProduct />
-              <div className='divider'></div>
-              <CartProduct />
-              <div className='divider'></div>
+              {products.map((product) => (
+                <React.Fragment key={product.id}>
+                  <CartProduct {...product} />
+                  <div className='divider' />
+                </React.Fragment>
+              ))}
             </SelectedProducts>
             <OrderSummary>
               <div>
