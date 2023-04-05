@@ -7,13 +7,23 @@ import {
   RemoveButton,
 } from "./style";
 
-export const CartProduct = () => {
+interface ProductProps {
+  imageUrl: string;
+  name: string;
+  price: number;
+}
+
+export const CartProduct = ({ imageUrl, name, price }: ProductProps) => {
+  const priceConverted = Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  }).format(price);
   return (
     <CartProductContainer>
       <ProductInfo>
-        <img src='/products/expresso.png' alt='' />
+        <img src={imageUrl} alt='' />
         <div>
-          <p>Expresso Tradicional</p>
+          <p>{name}</p>
           <ProductActions>
             <Counter>
               <button>
@@ -31,9 +41,7 @@ export const CartProduct = () => {
           </ProductActions>
         </div>
       </ProductInfo>
-      <strong>
-        <span>R$</span> 9,90
-      </strong>
+      <strong>{priceConverted}</strong>
     </CartProductContainer>
   );
 };
