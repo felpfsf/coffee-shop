@@ -15,6 +15,11 @@ export const ProductImage = styled.img`
   margin-top: -1.25rem;
 `;
 
+export const BadgeContainer = styled.div`
+  display: flex;
+  gap: 0.25rem;
+`;
+
 export const ProductTag = styled.span`
   font-size: ${({ theme }) => theme.fontSizes.micro};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
@@ -58,14 +63,14 @@ export const ProductActions = styled.div`
 `;
 
 export const PriceTag = styled.p`
-  font-size: ${({ theme }) => theme.fontSizes.small};
+  /* font-size: ${({ theme }) => theme.fontSizes.small}; */
   color: ${({ theme }) => theme.colors["base-text"]};
-  span {
-    font-family: ${({ theme }) => theme.fontFamilies.title};
-    font-size: ${({ theme }) => theme.fontSizes.xl};
-    font-weight: ${({ theme }) => theme.fontWeights["extra-bold"]};
-    line-height: 32px;
-  }
+  /* span { */
+  font-family: ${({ theme }) => theme.fontFamilies.title};
+  font-size: ${({ theme }) => theme.fontSizes.xl};
+  font-weight: ${({ theme }) => theme.fontWeights["extra-bold"]};
+  line-height: 32px;
+  /* } */
 `;
 
 export const Counter = styled.div`

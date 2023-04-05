@@ -1,5 +1,6 @@
 import { Minus, Plus, ShoppingCart } from "@phosphor-icons/react";
 import {
+  BadgeContainer,
   CardContainer,
   CartButton,
   Counter,
@@ -12,21 +13,36 @@ import {
   ProductTag,
 } from "./style";
 import { useProductsContext } from "@contexts/useProductsContext";
+import { formatCurrency } from "@utils/formatCurrency";
 
-export const ProductCard = () => {
+interface ProductProps {
+  imageUrl: string;
+  name: string;
+  badges: string[];
+  description: string;
+  price: number;
+}
+
+export const ProductCard = ({
+  badges,
+  description,
+  imageUrl,
+  name,
+  price,
+}: ProductProps) => {
   const { count, decrement, increment } = useProductsContext();
   return (
     <CardContainer>
-      <ProductImage src='/products/expresso.png' />
-      <ProductTag>tradicional</ProductTag>
-      <ProductName>Expresso Tradicional</ProductName>
-      <ProductDesc>
-        O tradicional café feito com água quente e grãos moídos
-      </ProductDesc>
+      <ProductImage src={imageUrl} />
+      <BadgeContainer>
+        {badges.map((badge, index) => (
+          <ProductTag key={`${badge}_${index}`}>{badge}</ProductTag>
+        ))}
+      </BadgeContainer>
+      <ProductName>{name}</ProductName>
+      <ProductDesc>{description}</ProductDesc>
       <ProductBuy>
-        <PriceTag>
-          R$ <span>9,90</span>
-        </PriceTag>
+        <PriceTag>{formatCurrency(price)}</PriceTag>
         <ProductActions>
           <Counter>
             <button onClick={decrement}>
