@@ -11,8 +11,10 @@ import {
   ProductName,
   ProductTag,
 } from "./style";
+import { useProductsContext } from "@contexts/useProductsContext";
 
 export const ProductCard = () => {
+  const { count, decrement, increment } = useProductsContext();
   return (
     <CardContainer>
       <ProductImage src='/products/expresso.png' />
@@ -27,11 +29,11 @@ export const ProductCard = () => {
         </PriceTag>
         <ProductActions>
           <Counter>
-            <button>
+            <button onClick={decrement}>
               <Minus />
             </button>
-            <span>1</span>
-            <button>
+            <span>{count}</span>
+            <button onClick={increment}>
               <Plus />
             </button>
           </Counter>
