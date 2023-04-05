@@ -11,32 +11,24 @@ export const CheckoutContainer = styled.main`
   }
   @media ${({ theme }) => theme.breakpoints.desktop} {
     padding: 0rem 10rem;
-    display: grid;
-    grid-template-columns: 40rem 1fr;
-    column-gap: 2rem;
   }
 `;
-export const Title = styled.h1`
+
+export const Title = styled.h2`
   font-size: ${({ theme }) => theme.fontSizes.medium};
   font-family: ${({ theme }) => theme.fontFamilies.title};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   color: ${({ theme }) => theme.colors["base-subtitle"]};
 `;
 
-export const FormContainer = styled.div`
-  margin-top: 0.75rem;
-  padding: 2.5rem;
-  background: ${({ theme }) => theme.colors["base-card"]};
-  border-radius: 0.375rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  svg {
-    color: ${({ theme }) => theme.colors["yellow-dark"]};
-  }
+export const FormContainer = styled.form`
+  /* border: 1px solid red; */
+  display: grid;
+  grid-template-columns: 40rem 1fr;
+  column-gap: 2rem;
 `;
 
-export const FormContainerHeader = styled.header`
+export const FormHeader = styled.header`
   display: flex;
   gap: 0.5rem;
   h1 {
@@ -48,16 +40,28 @@ export const FormContainerHeader = styled.header`
   }
 `;
 
-export const CheckoutForm = styled.form`
+export const ContentWrapper = styled.div`
+  margin-top: 1rem;
+  border-radius: 0.375rem;
+  padding: 2.5rem;
+  background: ${({ theme }) => theme.colors["base-card"]};
+`;
+
+export const ShippingAddress = styled.div`
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
-
   input {
+    font-size: ${({ theme }) => theme.fontSizes.small};
+    color: ${({ theme }) => theme.colors["base-text"]};
     background: ${({ theme }) => theme.colors["base-input"]};
     border: 0.0625rem solid ${({ theme }) => theme.colors["base-button"]};
     border-radius: 0.25rem;
     padding: 0.75rem;
+    &::placeholder {
+      color: ${({ theme }) => theme.colors["base-label"]};
+    }
   }
   div {
     display: flex;
@@ -69,42 +73,33 @@ export const CheckoutForm = styled.form`
   }
   div:first-of-type {
     input:last-of-type {
+      /* border: 1px solid red; */
       flex: 2.5;
     }
   }
   div:last-of-type {
     input:nth-of-type(1) {
-      flex: 1.1;
+      /* border: 1px solid orange; */
     }
     input:nth-of-type(2) {
-      flex: 2;
-      width: 0;
+      /* border: 1px solid green; */
+      flex: 2 0 auto;
     }
     input:nth-of-type(3) {
-      flex: 0.1;
-      width: 3.75rem;
+      /* border: 1px solid blue; */
+      width: 60px;
+      flex: 0 0 auto;
     }
   }
 `;
 
-export const PaymentOptions = styled.div`
-  margin-top: 0.75rem;
-  background: ${({ theme }) => theme.colors["base-card"]};
-  padding: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  svg {
-    color: ${({ theme }) => theme.colors.purple};
-  }
-`;
-
-export const RadioButtonGroup = styled(RadioGroup.Root)`
+export const PaymentOptions = styled(RadioGroup.Root)`
+  margin-top: 2rem;
   display: flex;
   gap: 0.75rem;
 `;
 
-export const RadioButtonItem = styled(RadioGroup.Item)`
+export const PaymentOption = styled(RadioGroup.Item)`
   width: 100%;
   padding: 1rem;
   border-radius: 0.375rem;
@@ -114,48 +109,67 @@ export const RadioButtonItem = styled(RadioGroup.Item)`
   align-items: center;
   gap: 0.75rem;
   cursor: pointer;
+  svg {
+    color: ${({ theme }) => theme.colors.purple};
+  }
   span {
     font-size: ${({ theme }) => theme.fontSizes.tiny};
     text-transform: uppercase;
   }
   &:hover {
     background: ${({ theme }) => theme.colors["base-hover"]};
-    transition: background 0.2s ease-in-out;
+    transition: background 0.3s ease-in-out;
   }
-  &[data-state="checked"] {
+  &[data-state=":checked"] {
     background: ${({ theme }) => theme.colors["purple-light"]};
     border: 1px solid ${({ theme }) => theme.colors.purple};
   }
 `;
 
+export const SelectedProducts = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  .divider {
+    border-top: 1px solid ${({ theme }) => theme.colors["base-button"]};
+    margin: 24px 0;
+  }
+`;
+
+export const OrderSummary = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  div:last-child {
+    font-size: ${({ theme }) => theme.fontSizes.large};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    color: ${({ theme }) => theme.colors["base-subtitle"]};
+  }
+`;
+
 export const SubmitButton = styled.button`
+  margin-top: 1.5rem;
+  width: 100%;
   font-size: ${({ theme }) => theme.fontSizes.small};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   color: ${({ theme }) => theme.colors.white};
+  letter-spacing: 0.125rem;
   line-height: 160%;
   text-transform: uppercase;
-  width: 100%;
-  padding: 12px 8px;
-  border-radius: 6px;
+  border-radius: 0.375rem;
+  padding: 0.75rem 0.5rem;
   background: ${({ theme }) => theme.colors.yellow};
   cursor: pointer;
-  &:focus {
-    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors.yellow};
-  }
   &:hover {
     background: ${({ theme }) => theme.colors["yellow-dark"]};
-    transition: background 0.2s ease-in-out;
+    transition: background 0.3s ease-in-out;
+  }
+  &:focus {
+    box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["yellow-dark"]};
   }
 `;
-
-export const CartContainer = styled.div`
-  margin-top: 0.75rem;
-  padding: 2.5rem;
-  background: ${({ theme }) => theme.colors["base-card"]};
-  border-radius: 0.375rem 2.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;
-
-
