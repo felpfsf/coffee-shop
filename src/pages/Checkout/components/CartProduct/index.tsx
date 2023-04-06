@@ -6,18 +6,42 @@ import {
   ProductInfo,
   RemoveButton,
 } from "./style";
+import { formatCurrency } from "@utils/formatCurrency";
+import { useCart } from "@contexts/CartContext";
+import { useState } from "react";
 
 interface ProductProps {
+  id: number;
   imageUrl: string;
   name: string;
   price: number;
+  quantity: number;
 }
 
-export const CartProduct = ({ imageUrl, name, price }: ProductProps) => {
-  const priceConverted = Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(price);
+export const CartProduct = ({
+  id,
+  imageUrl,
+  name,
+  price,
+  quantity,
+}: ProductProps) => {
+  const { removeFromCart, updateCartItemsQuantity } = useCart();
+  const product = { id, imageUrl, name, price };
+  const handleRemoveProduct = () => {
+    removeFromCart(product);
+  };
+  const handleDecrementProduct = () => {
+    const newQuantity = quantity - 1;
+    if (newQuantity < 1) {
+      removeFromCart(product);
+    } else {
+      updateCartItemsQuantity(product.id, newQuantity);
+    }
+  };
+  const handleIncrementProduct = () => {
+    const newQuantity = quantity + 1;
+    updateCartItemsQuantity(product.id, newQuantity);
+  };
   return (
     <CartProductContainer>
       <ProductInfo>
@@ -26,22 +50,22 @@ export const CartProduct = ({ imageUrl, name, price }: ProductProps) => {
           <p>{name}</p>
           <ProductActions>
             <Counter>
-              <button>
+              <button onClick={handleDecrementProduct} type='button'>
                 <Minus />
               </button>
-              <span>1</span>
-              <button>
+              <span>{quantity}</span>
+              <button onClick={handleIncrementProduct} type='button'>
                 <Plus />
               </button>
             </Counter>
-            <RemoveButton>
+            <RemoveButton onClick={handleRemoveProduct}>
               <Trash size={16} />
               Remover
             </RemoveButton>
           </ProductActions>
         </div>
       </ProductInfo>
-      <strong>{priceConverted}</strong>
+      <strong>{formatCurrency(price)}</strong>
     </CartProductContainer>
   );
 };
