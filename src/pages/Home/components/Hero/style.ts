@@ -20,6 +20,8 @@ export const HeroContainer = styled.section`
 `;
 
 export const HeroWrapper = styled.div`
+  max-width: 90rem;
+  margin: 0 auto;
   padding: 0 1rem;
   display: flex;
   align-items: center;
