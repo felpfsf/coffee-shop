@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface Product {
   id: number;
@@ -16,6 +22,7 @@ interface CartContextType {
   cartItems: CartItem[];
   addToCart: (product: Product, quantity: number) => void;
   removeFromCart: (product: Product) => void;
+  updateCartItemsQuantity: (productId: number, quantity: number) => void;
 }
 
 interface CartContextProvider {
@@ -26,10 +33,25 @@ const CartContext = createContext({
   cartItems: [],
   addToCart: () => {},
   removeFromCart: () => {},
+  updateCartItemsQuantity: () => {},
 } as CartContextType);
 
+const getLocalStorage = () => {
+  const storedItems = localStorage.getItem("@coffee-delivery:cartItems-v1.0.0");
+  if (storedItems) {
+    return JSON.parse(storedItems);
+  }
+};
+
+const setLocalStorage = (cartItems: CartItem[]) => {
+  const stateJSON = JSON.stringify(cartItems);
+  return localStorage.setItem("@coffee-delivery:cartItems-v1.0.0", stateJSON);
+};
+
 export const CartContextProvider = ({ children }: CartContextProvider) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>(
+    getLocalStorage() || []
+  );
 
   const addToCart = (product: Product, quantity: number) => {
     console.log(`item added to cart => "${product.name}"`);
@@ -54,7 +76,7 @@ export const CartContextProvider = ({ children }: CartContextProvider) => {
     }
   };
 
-  console.log("Cart Items", cartItems);
+  console.log("Cart Items(context) =>", cartItems);
 
   const removeFromCart = (product: Product) => {
     console.log("item removed from cart");
@@ -63,10 +85,25 @@ export const CartContextProvider = ({ children }: CartContextProvider) => {
     );
   };
 
+  const updateCartItemsQuantity = (productId: number, newQuantity: number) => {
+    setCartItems(
+      cartItems.map((item) =>
+        item.product.id === productId
+          ? { ...item, quantity: newQuantity }
+          : item
+      )
+    );
+  };
+
+  useEffect(() => {
+    setLocalStorage(cartItems);
+  }, [cartItems]);
+
   const contextValues = {
     cartItems,
     addToCart,
     removeFromCart,
+    updateCartItemsQuantity,
   };
 
   return (
