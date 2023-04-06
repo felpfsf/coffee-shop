@@ -14,8 +14,10 @@ import {
 } from "./style";
 import { formatCurrency } from "@utils/formatCurrency";
 import { useState } from "react";
+import { useCart } from "@contexts/CartContext";
 
 interface ProductProps {
+  id: number;
   imageUrl: string;
   name: string;
   badges: string[];
@@ -26,10 +28,20 @@ interface ProductProps {
 export const ProductCard = ({
   badges,
   description,
+  id,
   imageUrl,
   name,
   price,
 }: ProductProps) => {
+  const product = {
+    badges,
+    description,
+    id,
+    imageUrl,
+    name,
+    price,
+  };
+  const { addToCart } = useCart();
   const [count, setCount] = useState<number>(0);
 
   const decrement = () => {
@@ -39,6 +51,11 @@ export const ProductCard = ({
   };
   const increment = () => {
     setCount((prev) => prev + 1);
+  };
+  const handleAddToCart = () => {
+    if (count > 0) {
+      addToCart(product, count);
+    }
   };
   return (
     <CardContainer>
@@ -62,7 +79,7 @@ export const ProductCard = ({
               <Plus />
             </button>
           </Counter>
-          <CartButton>
+          <CartButton onClick={handleAddToCart}>
             <ShoppingCart weight='fill' />
           </CartButton>
         </ProductActions>
