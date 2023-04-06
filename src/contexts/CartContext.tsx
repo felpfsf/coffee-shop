@@ -3,8 +3,15 @@ import {
   createContext,
   useContext,
   useEffect,
+  useReducer,
   useState,
 } from "react";
+import {
+  addToCartAction,
+  removeFromCartAction,
+  updateCartAction,
+} from "src/reducers/cartItems/actions";
+import { cartItemsReducer } from "src/reducers/cartItems/reducers";
 
 interface Product {
   id: number;
@@ -49,58 +56,28 @@ const setLocalStorage = (cartItems: CartItem[]) => {
 };
 
 export const CartContextProvider = ({ children }: CartContextProvider) => {
-  const [cartItems, setCartItems] = useState<CartItem[]>(
-    getLocalStorage() || []
-  );
+  const [state, dispatch] = useReducer(cartItemsReducer, {
+    cartItems: getLocalStorage() || [],
+  });
 
   const addToCart = (product: Product, quantity: number) => {
-    console.log(`item added to cart => "${product.name}"`);
-
-    /**
-     * Caso o item já esteja no carrinho ele incrementa a quantidade
-     * Caso o item não esteja no carrinho então adiciona o produto e a quantidade
-     */
-    const existingCartItem = cartItems.find(
-      (cartItem) => cartItem.product.id === product.id
-    );
-    if (existingCartItem) {
-      setCartItems(
-        cartItems.map((cartItem) =>
-          cartItem.product.id === product.id
-            ? { ...cartItem, quantity: cartItem.quantity + quantity }
-            : cartItem
-        )
-      );
-    } else {
-      setCartItems([...cartItems, { product, quantity }]);
-    }
+    dispatch(addToCartAction(product, quantity));
   };
 
-  console.log("Cart Items(context) =>", cartItems);
-
   const removeFromCart = (product: Product) => {
-    console.log("item removed from cart");
-    setCartItems(
-      cartItems.filter((cartItem) => cartItem.product.id !== product.id)
-    );
+    dispatch(removeFromCartAction(product.id));
   };
 
   const updateCartItemsQuantity = (productId: number, newQuantity: number) => {
-    setCartItems(
-      cartItems.map((item) =>
-        item.product.id === productId
-          ? { ...item, quantity: newQuantity }
-          : item
-      )
-    );
+    dispatch(updateCartAction(productId, newQuantity));
   };
 
   useEffect(() => {
-    setLocalStorage(cartItems);
-  }, [cartItems]);
+    setLocalStorage(state.cartItems);
+  }, [state.cartItems]);
 
   const contextValues = {
-    cartItems,
+    cartItems: state.cartItems,
     addToCart,
     removeFromCart,
     updateCartItemsQuantity,
