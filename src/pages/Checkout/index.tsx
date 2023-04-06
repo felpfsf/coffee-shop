@@ -1,4 +1,6 @@
 import React from "react";
+import { useCart } from "@contexts/CartContext";
+import { formatCurrency } from "@utils/formatCurrency";
 import {
   Bank,
   CreditCard,
@@ -20,35 +22,15 @@ import {
   SubmitButton,
 } from "./style";
 import { CartProduct } from "./components/CartProduct";
-import { useCart } from "@contexts/CartContext";
-import { formatCurrency } from "@utils/formatCurrency";
-
-const products = [
-  {
-    id: 1,
-    imageUrl: "/products/expresso.png",
-    name: "Expresso Tradicional",
-    price: 9.9,
-  },
-  { id: 2, imageUrl: "/products/latte.png", name: "Latte", price: 9.9 },
-  { id: 3, imageUrl: "/products/macchiato.png", name: "Macchiato", price: 9.9 },
-  { id: 4, imageUrl: "/products/capuccino.png", name: "Capuccino", price: 9.9 },
-];
 
 export const Checkout = () => {
   const { cartItems } = useCart();
-  console.log("checkout page cart items =>", cartItems);
-
   const subtotal = cartItems.reduce((acc, item) => {
     return acc + item.quantity * item.product.price;
   }, 0);
   const deliveryFee = subtotal * 0.12; // cobrando 12% para o frete
   const total = subtotal + deliveryFee;
-  console.log(
-    formatCurrency(subtotal),
-    formatCurrency(deliveryFee),
-    formatCurrency(total)
-  );
+
   return (
     <CheckoutContainer>
       <FormContainer action=''>
