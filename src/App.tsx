@@ -1,4 +1,5 @@
 import { Header } from "@components/Header";
+import { CartContextProvider } from "@contexts/CartContext";
 import { GlobalStyle } from "@styles/global";
 import { defaultTheme } from "@styles/theme/default";
 import { Outlet } from "react-router-dom";
@@ -8,8 +9,10 @@ function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyle />
-      <Header />
-      <Outlet />
+      <CartContextProvider>
+        <Header />
+        <Outlet />
+      </CartContextProvider>
     </ThemeProvider>
   );
 }
