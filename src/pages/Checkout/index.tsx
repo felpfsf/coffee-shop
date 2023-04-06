@@ -20,6 +20,8 @@ import {
   SubmitButton,
 } from "./style";
 import { CartProduct } from "./components/CartProduct";
+import { useCart } from "@contexts/CartContext";
+import { formatCurrency } from "@utils/formatCurrency";
 
 const products = [
   {
@@ -34,6 +36,19 @@ const products = [
 ];
 
 export const Checkout = () => {
+  const { cartItems } = useCart();
+  console.log("checkout page cart items =>", cartItems);
+
+  const subtotal = cartItems.reduce((acc, item) => {
+    return acc + item.quantity * item.product.price;
+  }, 0);
+  const deliveryFee = subtotal * 0.12; // cobrando 12% para o frete
+  const total = subtotal + deliveryFee;
+  console.log(
+    formatCurrency(subtotal),
+    formatCurrency(deliveryFee),
+    formatCurrency(total)
+  );
   return (
     <CheckoutContainer>
       <FormContainer action=''>
@@ -94,9 +109,9 @@ export const Checkout = () => {
           <Title>Café selecionados</Title>
           <ContentWrapper>
             <SelectedProducts>
-              {products.map((product) => (
-                <React.Fragment key={product.id}>
-                  <CartProduct {...product} />
+              {cartItems.map((item) => (
+                <React.Fragment key={item.product.id}>
+                  <CartProduct {...item.product} quantity={item.quantity} />
                   <div className='divider' />
                 </React.Fragment>
               ))}
@@ -104,21 +119,15 @@ export const Checkout = () => {
             <OrderSummary>
               <div>
                 <p>Total de itens</p>
-                <p>
-                  <span>R$ </span>29,70
-                </p>
+                <p>{formatCurrency(subtotal)}</p>
               </div>
               <div>
                 <p>Entrega</p>
-                <p>
-                  <span>R$ </span>3,50
-                </p>
+                <p>{formatCurrency(deliveryFee)}</p>
               </div>
               <div>
                 <p>Total</p>
-                <p>
-                  <span>R$ </span>33,20
-                </p>
+                <p>{formatCurrency(total)}</p>
               </div>
             </OrderSummary>
             <SubmitButton>confirmar pedido</SubmitButton>
