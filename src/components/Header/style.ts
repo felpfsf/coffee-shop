@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 export const HeaderContainer = styled.header`
   max-width: 90rem;
@@ -19,12 +20,17 @@ export const HeaderContainer = styled.header`
   }
 `;
 
-export const CartButton = styled.button`
+export const LinkHome = styled(Link)`
+  display: flex;
+`;
+
+export const CartButton = styled(Link)`
   position: relative;
   padding: 0.5rem;
   background: ${({ theme }) => theme.colors["yellow-light"]};
   border-radius: 0.375rem;
   cursor: pointer;
+  display: flex;
   & svg {
     color: ${({ theme }) => theme.colors["yellow-dark"]};
   }
