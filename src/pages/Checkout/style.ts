@@ -120,7 +120,7 @@ export const PaymentOption = styled(RadioGroup.Item)`
     background: ${({ theme }) => theme.colors["base-hover"]};
     transition: background 0.3s ease-in-out;
   }
-  &[data-state=":checked"] {
+  &[data-state="checked"] {
     background: ${({ theme }) => theme.colors["purple-light"]};
     border: 1px solid ${({ theme }) => theme.colors.purple};
   }
