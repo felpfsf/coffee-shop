@@ -12,8 +12,8 @@ import {
   ProductName,
   ProductTag,
 } from "./style";
-import { useProductsContext } from "@contexts/useProductsContext";
 import { formatCurrency } from "@utils/formatCurrency";
+import { useState } from "react";
 
 interface ProductProps {
   imageUrl: string;
@@ -30,7 +30,16 @@ export const ProductCard = ({
   name,
   price,
 }: ProductProps) => {
-  const { count, decrement, increment } = useProductsContext();
+  const [count, setCount] = useState<number>(0);
+
+  const decrement = () => {
+    if (count > 0) {
+      setCount((prev) => prev - 1);
+    }
+  };
+  const increment = () => {
+    setCount((prev) => prev + 1);
+  };
   return (
     <CardContainer>
       <ProductImage src={imageUrl} />

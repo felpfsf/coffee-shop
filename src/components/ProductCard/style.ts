@@ -33,7 +33,7 @@ export const ProductTag = styled.span`
 
 export const ProductName = styled.h1`
   font-family: ${({ theme }) => theme.fontFamilies.title};
-  font-size: ${({ theme }) => theme.fontSizes.large} !important;
+  font-size: ${({ theme }) => theme.fontSizes.large};
   color: ${({ theme }) => theme.colors["base-subtitle"]};
   font-weight: ${({ theme }) => theme.fontWeights.bold};
   text-align: center;
@@ -69,11 +69,12 @@ export const PriceTag = styled.p`
   font-family: ${({ theme }) => theme.fontFamilies.title};
   font-size: ${({ theme }) => theme.fontSizes.xl};
   font-weight: ${({ theme }) => theme.fontWeights["extra-bold"]};
-  line-height: 32px;
+  line-height: 2rem;
   /* } */
 `;
 
 export const Counter = styled.div`
+  height: 2rem;
   color: ${({ theme }) => theme.colors["base-title"]};
   padding: 0.25rem;
   background: ${({ theme }) => theme.colors["base-button"]};
@@ -83,7 +84,13 @@ export const Counter = styled.div`
   gap: 0.5rem;
   button {
     color: ${({ theme }) => theme.colors.purple};
+    border-radius: 100%;
     cursor: pointer;
+  }
+  button:hover {
+    color: ${({ theme }) => theme.colors["purple-dark"]};
+    background-color: ${({ theme }) => theme.colors["base-hover"]};
+    transition: all 0.3s ease-in-out;
   }
 `;
 
