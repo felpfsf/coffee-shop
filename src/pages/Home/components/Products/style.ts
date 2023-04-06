@@ -28,7 +28,19 @@ export const SectionTitle = styled.h1`
 
 export const ProductsGrid = styled.div`
   margin: 3rem auto;
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  row-gap: 2.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+  @media ${({ theme }) => theme.breakpoints.mobileL} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    place-items: center;
+    row-gap: 2.5rem;
+  }
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    row-gap: 2.5rem;
+  }
 `;

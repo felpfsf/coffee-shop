@@ -1,18 +1,19 @@
 import styled from "styled-components";
 
 export const CardContainer = styled.div`
-  max-width: 16rem;
-  width: 100%;
-  padding: 0 1.5rem 1.25rem;
+  width: 16rem;
+  height: 19.375rem;
+  padding: 0 1.25rem 1.5rem;
   background: ${({ theme }) => theme.colors["base-card"]};
   border-radius: 0.375rem 2.25rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-around;
 `;
 
 export const ProductImage = styled.img`
-  margin-top: -1.25rem;
+  margin-top: -20px;
 `;
 
 export const BadgeContainer = styled.div`
@@ -98,6 +99,11 @@ export const CartButton = styled.button`
   padding: 0.5rem;
   border-radius: 0.375rem;
   background: ${({ theme }) => theme.colors["purple-dark"]};
+  cursor: pointer;
+  &:hover {
+    background: ${({ theme }) => theme.colors.purple};
+    transition: background 0.3s ease-in-out;
+  }
   svg {
     color: ${({ theme }) => theme.colors.white};
   }

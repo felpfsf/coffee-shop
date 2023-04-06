@@ -22,10 +22,14 @@ export const Title = styled.h2`
 `;
 
 export const FormContainer = styled.form`
-  /* border: 1px solid red; */
-  display: grid;
-  grid-template-columns: 40rem 1fr;
-  column-gap: 2rem;
+  display: flex;
+  flex-direction: column;
+
+  @media ${({ theme }) => theme.breakpoints.desktop} {
+    display: grid;
+    grid-template-columns: 40rem 1fr;
+    column-gap: 2rem;
+  }
 `;
 
 export const FormHeader = styled.header`
