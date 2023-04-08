@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useCart } from "@contexts/CartContext";
 import { formatCurrency } from "@utils/formatCurrency";
 import {
@@ -41,7 +41,7 @@ const ProductOrder = z.object({
 type ProductOrderType = z.infer<typeof ProductOrder>;
 
 export const Checkout = () => {
-  const { cartItems } = useCart();
+  const { cartItems, handleIsOrderSubmitted, isOrderSubmitted } = useCart();
   const subtotal = cartItems.reduce((acc, item) => {
     return acc + item.quantity * item.product.price;
   }, 0);
@@ -50,7 +50,7 @@ export const Checkout = () => {
   // React Hook Forms
   const {
     control,
-    formState: { isSubmitting, errors },
+    formState: { isSubmitted, isSubmitting, errors },
     handleSubmit,
     register,
     watch,
@@ -62,7 +62,7 @@ export const Checkout = () => {
   });
   const navigate = useNavigate();
 
-  const handleSubmitOrder = async (data: ProductOrderType) => {
+  const handleSubmitOrder = (data: ProductOrderType) => {
     const orderSummary = {
       products: cartItems.map((item) => ({
         name: item.product.name,
@@ -75,15 +75,30 @@ export const Checkout = () => {
       total,
     };
     const formData = { ...data, orderSummary };
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    console.log(formData);
-    navigate("/success", {
-      state: {
-        confirmed: true,
-        formData,
-      },
-    });
+    // await new Promise((resolve) => setTimeout(resolve, 2000));
+    // console.log(formData);
+    handleIsOrderSubmitted(true);
+    setTimeout(() => {
+      navigate("/success", {
+        state: {
+          formData,
+        },
+      });
+    }, 2000);
+    // console.log("checkout from context =>", isOrderSubmitted);
+    // console.log("method from useForm =>", isSubmitted);
+    // console.log(isOrderSubmitted);
   };
+
+  // useEffect(() => {
+  //   if (isOrderSubmitted) {
+  //     navigate("/success", {
+  //       state: {
+  //         formData,
+  //       },
+  //     });
+  //   }
+  // }, [isOrderSubmitted]);
   const formData = watch();
   // React Hook Forms
   return (
