@@ -4,6 +4,7 @@ const screens = {
   mobileL: "425px",
   tablet: "768px",
   laptop: "1024px",
+  desktopHD:"1366px",
   desktop: "1440px",
   desktopL: "2560px",
 };
@@ -14,6 +15,7 @@ const devices = {
   mobileL: `(min-width: ${screens.mobileL})`,
   tablet: `(min-width: ${screens.tablet})`,
   laptop: `(min-width: ${screens.laptop})`,
+  desktopHD: `(min-width: ${screens.desktopHD})`,
   desktop: `(min-width: ${screens.desktop})`,
   desktopL: `(min-width: ${screens.desktopL})`,
 };
