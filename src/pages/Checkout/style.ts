@@ -24,8 +24,9 @@ export const Title = styled.h2`
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
+  gap: 2rem;
 
-  @media ${({ theme }) => theme.breakpoints.desktop} {
+  @media ${({ theme }) => theme.breakpoints.desktopHD} {
     display: grid;
     grid-template-columns: 40rem 1fr;
     column-gap: 2rem;
@@ -75,6 +76,11 @@ export const ShippingAddress = styled.div`
       width: 0;
     }
   }
+  input:first-of-type[placeholder="CEP"] {
+    @media ${({ theme }) => theme.breakpoints.desktopHD} {
+      width: 30%;
+    }
+  }
   div:first-of-type {
     input:last-of-type {
       /* border: 1px solid red; */
@@ -100,7 +106,12 @@ export const ShippingAddress = styled.div`
 export const PaymentOptions = styled(RadioGroup.Root)`
   margin-top: 2rem;
   display: flex;
+  flex-direction: column;
   gap: 0.75rem;
+
+  @media ${({ theme }) => theme.breakpoints.desktopHD} {
+    flex-direction: row;
+  }
 `;
 
 export const PaymentOption = styled(RadioGroup.Item)`
@@ -156,7 +167,8 @@ export const OrderSummary = styled.div`
   }
 `;
 
-export const SubmitButton = styled.button`
+export const SubmitButton = styled.button<{ isLoading: boolean }>`
+  position: relative;
   margin-top: 1.5rem;
   width: 100%;
   font-size: ${({ theme }) => theme.fontSizes.small};
@@ -169,11 +181,35 @@ export const SubmitButton = styled.button`
   padding: 0.75rem 0.5rem;
   background: ${({ theme }) => theme.colors.yellow};
   cursor: pointer;
-  &:hover {
+  &:not(:disabled):hover {
     background: ${({ theme }) => theme.colors["yellow-dark"]};
     transition: background 0.3s ease-in-out;
   }
   &:focus {
     box-shadow: 0 0 0 2px ${({ theme }) => theme.colors["yellow-dark"]};
+  }
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  &::before {
+    position: absolute;
+    content: "";
+    top: 50%;
+    left: 25%;
+    transform: translate(-50%, -50%);
+    width: 1.25rem;
+    height: 1.25rem;
+    border: 2px solid ${({ theme }) => theme.colors.white};
+    border-top: transparent;
+    border-radius: 100%;
+    opacity: ${({ isLoading }) => (isLoading ? 1 : 0)};
+    animation: spin 0.8s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes spin {
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
   }
 `;

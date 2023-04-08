@@ -22,6 +22,23 @@ import {
   SubmitButton,
 } from "./style";
 import { CartProduct } from "./components/CartProduct";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import z from "zod";
+import { useNavigate } from "react-router-dom";
+
+const ProductOrder = z.object({
+  zip_code: z.string().regex(/^\d{5}-\d{3}$/),
+  street: z.string(),
+  house_number: z.string(),
+  complement: z.string().optional(),
+  neighborhood: z.string(),
+  city: z.string().regex(/^[a-zA-ZÀ-ÖØ-öø-ÿ\s']+$/),
+  state: z.string().regex(/^[A-Za-z]{2}$/),
+  payment_options: z.enum(["credit", "debit", "money"]),
+});
+
+type ProductOrderType = z.infer<typeof ProductOrder>;
 
 export const Checkout = () => {
   const { cartItems } = useCart();
@@ -30,10 +47,48 @@ export const Checkout = () => {
   }, 0);
   const deliveryFee = subtotal * 0.12; // cobrando 12% para o frete
   const total = subtotal + deliveryFee;
+  // React Hook Forms
+  const {
+    control,
+    formState: { isSubmitting, errors },
+    handleSubmit,
+    register,
+    watch,
+  } = useForm<ProductOrderType>({
+    resolver: zodResolver(ProductOrder),
+    defaultValues: {
+      payment_options: "credit",
+    },
+  });
+  const navigate = useNavigate();
 
+  const handleSubmitOrder = async (data: ProductOrderType) => {
+    const orderSummary = {
+      products: cartItems.map((item) => ({
+        name: item.product.name,
+        quantity: item.quantity,
+        price: item.product.price,
+        subtotal: item.quantity * item.product.price,
+      })),
+      deliveryFee,
+      subtotal,
+      total,
+    };
+    const formData = { ...data, orderSummary };
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    console.log(formData);
+    navigate("/success", {
+      state: {
+        confirmed: true,
+        formData,
+      },
+    });
+  };
+  const formData = watch();
+  // React Hook Forms
   return (
     <CheckoutContainer>
-      <FormContainer action=''>
+      <FormContainer action='' onSubmit={handleSubmit(handleSubmitOrder)}>
         <div>
           <Title>Complete seu pedido</Title>
 
@@ -45,17 +100,61 @@ export const Checkout = () => {
                 <p>Informe o endereço onde deseja receber seu pedido</p>
               </div>
             </FormHeader>
+
             <ShippingAddress>
-              <input type='text' placeholder='CEP' />
-              <input type='text' placeholder='Rua' />
+              <input
+                id='zip_code'
+                type='text'
+                placeholder='CEP'
+                {...register("zip_code")}
+              />
+              {errors.zip_code && <p>{errors.zip_code.message}</p>}
+              <input
+                id='street'
+                type='text'
+                placeholder='Rua'
+                {...register("street")}
+              />
+              {errors.street && <p>{errors.street.message}</p>}
               <div>
-                <input type='text' placeholder='Número' />
-                <input type='text' placeholder='Complemento' />
+                <input
+                  id='house_number'
+                  type='text'
+                  placeholder='Número'
+                  {...register("house_number")}
+                />
+                {errors.house_number && <p>{errors.house_number.message}</p>}
+                <input
+                  id='complement'
+                  type='text'
+                  placeholder='Complemento'
+                  {...register("complement")}
+                />
+                {errors.complement && <p>{errors.complement.message}</p>}
               </div>
               <div>
-                <input type='text' placeholder='Bairro' />
-                <input type='text' placeholder='Cidade' />
-                <input type='text' placeholder='UF' />
+                <input
+                  id='neighborhood'
+                  type='text'
+                  placeholder='Bairro'
+                  {...register("neighborhood")}
+                />
+                {errors.neighborhood && <p>{errors.neighborhood.message}</p>}
+                <input
+                  id='city'
+                  type='text'
+                  placeholder='Cidade'
+                  {...register("city")}
+                />
+                {errors.city && <p>{errors.city.message}</p>}
+                <input
+                  id='state'
+                  type='text'
+                  placeholder='UF'
+                  maxLength={2}
+                  {...register("state")}
+                />
+                {errors.state && <p>{errors.state.message}</p>}
               </div>
             </ShippingAddress>
           </ContentWrapper>
@@ -71,21 +170,33 @@ export const Checkout = () => {
                 </p>
               </div>
             </FormHeader>
-            <PaymentOptions>
-              <PaymentOption value='credit'>
-                <CreditCard size={16} />
-                <span>cartão de crédito</span>
-              </PaymentOption>
-              <PaymentOption value='debit'>
-                <Bank size={16} />
-                <span>cartão de débito</span>
-              </PaymentOption>
-              <PaymentOption value='money'>
-                <Money size={16} />
-                <span>dinheiro</span>
-              </PaymentOption>
-            </PaymentOptions>
+            <Controller
+              name='payment_options'
+              control={control}
+              render={({ field }) => {
+                return (
+                  <PaymentOptions
+                    value={field.value}
+                    onValueChange={field.onChange}
+                  >
+                    <PaymentOption value='credit'>
+                      <CreditCard size={16} />
+                      <span>cartão de crédito</span>
+                    </PaymentOption>
+                    <PaymentOption value='debit'>
+                      <Bank size={16} />
+                      <span>cartão de débito</span>
+                    </PaymentOption>
+                    <PaymentOption value='money'>
+                      <Money size={16} />
+                      <span>dinheiro</span>
+                    </PaymentOption>
+                  </PaymentOptions>
+                );
+              }}
+            />
           </ContentWrapper>
+          <pre>{JSON.stringify(formData, null, 2)}</pre>
         </div>
         <div>
           <Title>Café selecionados</Title>
@@ -112,7 +223,9 @@ export const Checkout = () => {
                 <p>{formatCurrency(total)}</p>
               </div>
             </OrderSummary>
-            <SubmitButton>confirmar pedido</SubmitButton>
+            <SubmitButton disabled={isSubmitting} isLoading={isSubmitting}>
+              {isSubmitting ? "carregando..." : "confirmar pedido"}
+            </SubmitButton>
           </ContentWrapper>
         </div>
       </FormContainer>
