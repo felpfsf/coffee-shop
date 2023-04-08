@@ -5,10 +5,63 @@ export const SuccessContainer = styled.main`
   width: 100%;
   margin: 5rem auto;
   padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
   @media ${({ theme }) => theme.breakpoints.mobileL} {
     padding: 0rem 2rem;
   }
+  @media ${({ theme }) => theme.breakpoints.laptop} {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 6.25rem;
+    align-items: end;
+    gap: 100px;
+  }
   @media ${({ theme }) => theme.breakpoints.desktop} {
     padding: 0rem 10rem;
+  }
+  img {
+    max-width: 492px;
+  }
+`;
+
+export const Title = styled.div`
+  h1 {
+    font-size: ${({ theme }) => theme.fontSizes["2xl"]};
+    font-family: ${({ theme }) => theme.fontFamilies.title};
+    font-weight: ${({ theme }) => theme.fontWeights.bold};
+    color: ${({ theme }) => theme.colors["yellow-dark"]};
+    line-height: 130%;
+  }
+  p {
+    font-size: ${({ theme }) => theme.fontSizes.large};
+    line-height: 130%;
+  }
+`;
+
+export const OrderDeliveryInfoContainer = styled.div`
+  position: relative;
+  margin-top: 2.5rem;
+  border-radius: 6px 36px;
+  padding: 2.5rem;
+  background: ${({ theme }) => theme.colors.background};
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: 6px 36px;
+    background: linear-gradient(
+      to right,
+      ${({ theme }) => theme.colors.yellow},
+      ${({ theme }) => theme.colors.purple}
+    );
+    z-index: -1;
+    pointer-events: none;
   }
 `;
