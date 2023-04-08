@@ -40,6 +40,28 @@ const ProductOrder = z.object({
 
 type ProductOrderType = z.infer<typeof ProductOrder>;
 
+export interface OrderFormData {
+  zip_code: string;
+  street: string;
+  house_number: string;
+  complement?: string;
+  neighborhood: string;
+  city: string;
+  state: string;
+  payment_options: string;
+  orderSummary: {
+    products: {
+      name: string;
+      quantity: number;
+      price: number;
+      subtotal: number;
+    }[];
+    deliveryFee: number;
+    subtotal: number;
+    total: number;
+  };
+}
+
 export const Checkout = () => {
   const { cartItems, handleIsOrderSubmitted, isOrderSubmitted } = useCart();
   const subtotal = cartItems.reduce((acc, item) => {
@@ -50,7 +72,7 @@ export const Checkout = () => {
   // React Hook Forms
   const {
     control,
-    formState: { isSubmitted, isSubmitting, errors },
+    formState: { isSubmitting, errors },
     handleSubmit,
     register,
     watch,
@@ -75,30 +97,16 @@ export const Checkout = () => {
       total,
     };
     const formData = { ...data, orderSummary };
-    // await new Promise((resolve) => setTimeout(resolve, 2000));
-    // console.log(formData);
     handleIsOrderSubmitted(true);
     setTimeout(() => {
       navigate("/success", {
         state: {
-          formData,
+          formData: formData as OrderFormData,
         },
       });
     }, 2000);
-    // console.log("checkout from context =>", isOrderSubmitted);
-    // console.log("method from useForm =>", isSubmitted);
-    // console.log(isOrderSubmitted);
   };
 
-  // useEffect(() => {
-  //   if (isOrderSubmitted) {
-  //     navigate("/success", {
-  //       state: {
-  //         formData,
-  //       },
-  //     });
-  //   }
-  // }, [isOrderSubmitted]);
   const formData = watch();
   // React Hook Forms
   return (
