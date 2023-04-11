@@ -63,7 +63,7 @@ export interface OrderFormData {
 }
 
 export const Checkout = () => {
-  const { cartItems, handleIsOrderSubmitted, isOrderSubmitted } = useCart();
+  const { cartItems, handleIsOrderSubmitted, clearCartItems } = useCart();
   const subtotal = cartItems.reduce((acc, item) => {
     return acc + item.quantity * item.product.price;
   }, 0);
@@ -104,6 +104,7 @@ export const Checkout = () => {
           formData: formData as OrderFormData,
         },
       });
+      clearCartItems();
     }, 2000);
   };
 
