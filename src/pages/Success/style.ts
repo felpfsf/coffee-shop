@@ -10,6 +10,10 @@ export const SuccessContainer = styled.main`
   align-items: center;
   justify-content: center;
   gap: 2rem;
+  img {
+    max-width: 492px;
+    width: 100%;
+  }
   @media ${({ theme }) => theme.breakpoints.mobileL} {
     padding: 0rem 2rem;
   }
@@ -22,9 +26,6 @@ export const SuccessContainer = styled.main`
   }
   @media ${({ theme }) => theme.breakpoints.desktop} {
     padding: 0rem 10rem;
-  }
-  img {
-    max-width: 492px;
   }
 `;
 
@@ -63,5 +64,33 @@ export const OrderDeliveryInfoContainer = styled.div`
     );
     z-index: -1;
     pointer-events: none;
+  }
+`;
+interface DeliveryContentVariant {
+  variant: "address" | "timer" | "payment";
+}
+export const DeliveryContent = styled.div<DeliveryContentVariant>`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  div {
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+    background-color: ${({ theme, variant }) =>
+      variant === "address"
+        ? theme.colors.purple
+        : variant === "timer"
+        ? theme.colors.yellow
+        : variant === "payment"
+        ? theme.colors["yellow-dark"]
+        : null};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    svg {
+      font-size: ${({ theme }) => theme.fontSizes.medium};
+      color: ${({ theme }) => theme.colors.white};
+    }
   }
 `;

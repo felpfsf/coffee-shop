@@ -1,6 +1,12 @@
 import { useLocation } from "react-router-dom";
-import { OrderDeliveryInfoContainer, SuccessContainer, Title } from "./style";
+import {
+  DeliveryContent,
+  OrderDeliveryInfoContainer,
+  SuccessContainer,
+  Title,
+} from "./style";
 import { OrderFormData } from "..";
+import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react";
 
 export const Success = () => {
   const location = useLocation();
@@ -13,12 +19,46 @@ export const Success = () => {
           <p>Agora é só aguardar que logo o café chegará até você</p>
         </Title>
         <OrderDeliveryInfoContainer>
-          <div>conteudo</div>
-          <div>
-            {orderFormData.street},{orderFormData.house_number} -{" "}
-            {orderFormData.neighborhood}
-          </div>
-          <div>conteudo</div>
+          <DeliveryContent variant='address'>
+            <div>
+              <MapPin weight='fill' />
+            </div>
+            <p>
+              Entrega em{" "}
+              <strong>
+                {orderFormData.street}, {orderFormData.house_number}
+              </strong>
+              <br />
+              {orderFormData.neighborhood} - {orderFormData.city}/
+              {orderFormData.state}
+            </p>
+          </DeliveryContent>
+          <DeliveryContent variant='timer'>
+            <div>
+              <Timer weight='fill' />
+            </div>
+            <p>
+              Entrega estimada em <br /> <strong>20 min - 30 min</strong>
+            </p>
+          </DeliveryContent>
+          <DeliveryContent variant='payment'>
+            <div>
+              <CurrencyDollar />
+            </div>
+            <p>
+              Pagamento na entrega
+              <br />
+              <strong>
+                {orderFormData.payment_options === "credit"
+                  ? "Cartão de crédito"
+                  : orderFormData.payment_options === "debit"
+                  ? "Cartão de débito"
+                  : orderFormData.payment_options === "money"
+                  ? "Dinheiro"
+                  : ''}
+              </strong>
+            </p>
+          </DeliveryContent>
           <div>conteudo</div>
         </OrderDeliveryInfoContainer>
       </div>
