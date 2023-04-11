@@ -5,19 +5,7 @@ import { ReactNode, useState } from "react";
 import { useCart } from "@contexts/CartContext";
 
 const ProtectedRoute = ({ element }: { element: ReactNode }) => {
-  const navigate = useNavigate();
   const { isOrderSubmitted } = useCart();
-  // const [submitted, setSubmitted] = useState(false);
-  // const handleSubmit = async () => {
-  //   await new Promise((resolve) => setTimeout(resolve, 2000));
-  //   setSubmitted(true);
-  // };
-  // if (!submitted) {
-  //   navigate("/");
-  //   return null;
-  // }
-  // return element as JSX.Element;
-  console.log(isOrderSubmitted);
   return isOrderSubmitted ? (
     (element as JSX.Element)
   ) : (
@@ -41,7 +29,6 @@ export const Routes = createBrowserRouter([
       {
         path: "/success",
         element: <ProtectedRoute element={<Success />} />,
-        // element: <Success />,
       },
     ],
   },
