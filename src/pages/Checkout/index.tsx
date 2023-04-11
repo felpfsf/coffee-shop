@@ -48,7 +48,7 @@ export interface OrderFormData {
   neighborhood: string;
   city: string;
   state: string;
-  payment_options: string;
+  payment_options: "credit" | "debit" | "money";
   orderSummary: {
     products: {
       name: string;
