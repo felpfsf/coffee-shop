@@ -8,6 +8,7 @@ import {
 } from "react";
 import {
   addToCartAction,
+  clearCartAction,
   removeFromCartAction,
   updateCartAction,
 } from "src/reducers/cartItems/actions";
@@ -32,6 +33,7 @@ interface CartContextType {
   removeFromCart: (product: Product) => void;
   updateCartItemsQuantity: (productId: number, quantity: number) => void;
   handleIsOrderSubmitted: (isSubmitted: boolean) => void;
+  clearCartItems: () => void;
 }
 
 interface CartContextProvider {
@@ -45,6 +47,7 @@ const CartContext = createContext({
   removeFromCart: () => {},
   updateCartItemsQuantity: () => {},
   handleIsOrderSubmitted: () => {},
+  clearCartItems: () => {},
 } as CartContextType);
 
 const getLocalStorage = () => {
@@ -82,11 +85,11 @@ export const CartContextProvider = ({ children }: CartContextProvider) => {
   );
 
   const handleIsOrderSubmitted = (isSubmitted: boolean) => {
-    console.log("context handleIsOrderSubmitted =>", isSubmitted);
+    // console.log("context handleIsOrderSubmitted =>", isSubmitted);
     setIsOrderSubmitted(isSubmitted);
     // setOrderIsSubmittedToLocalStorage(isSubmitted);
   };
-  console.log("context isOrderSubmitted =>", isOrderSubmitted);
+  // console.log("context isOrderSubmitted =>", isOrderSubmitted);
 
   const addToCart = (product: Product, quantity: number) => {
     dispatch(addToCartAction(product, quantity));
@@ -100,13 +103,17 @@ export const CartContextProvider = ({ children }: CartContextProvider) => {
     dispatch(updateCartAction(productId, newQuantity));
   };
 
+  const clearCartItems = () => {
+    dispatch(clearCartAction());
+  };
+
   useEffect(() => {
     setLocalStorage(state.cartItems);
   }, [state.cartItems]);
 
-  useEffect(()=>{
-    setOrderIsSubmittedToLocalStorage(isOrderSubmitted)
-  },[isOrderSubmitted])
+  useEffect(() => {
+    setOrderIsSubmittedToLocalStorage(isOrderSubmitted);
+  }, [isOrderSubmitted]);
 
   const contextValues = {
     cartItems: state.cartItems,
@@ -115,6 +122,7 @@ export const CartContextProvider = ({ children }: CartContextProvider) => {
     handleIsOrderSubmitted,
     removeFromCart,
     updateCartItemsQuantity,
+    clearCartItems
   };
 
   return (
