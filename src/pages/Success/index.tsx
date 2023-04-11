@@ -3,10 +3,12 @@ import {
   DeliveryContent,
   OrderDeliveryInfoContainer,
   SuccessContainer,
+  Summary,
   Title,
 } from "./style";
 import { OrderFormData } from "..";
 import { CurrencyDollar, MapPin, Timer } from "@phosphor-icons/react";
+import { formatCurrency } from "@utils/formatCurrency";
 
 export const Success = () => {
   const location = useLocation();
@@ -55,11 +57,21 @@ export const Success = () => {
                   ? "Cartão de débito"
                   : orderFormData.payment_options === "money"
                   ? "Dinheiro"
-                  : ''}
+                  : ""}
               </strong>
             </p>
           </DeliveryContent>
-          <div>conteudo</div>
+          {/* <Summary>
+            {orderFormData.orderSummary.products.map((product) => {
+              return (
+                <div>
+                  <p>{product.name}</p>
+                  <p>{formatCurrency(product.price)}</p>
+                  <p>{product.quantity}</p>
+                </div>
+              );
+            })}
+          </Summary> */}
         </OrderDeliveryInfoContainer>
       </div>
       <img src='/delivery_hero.png' alt='' />

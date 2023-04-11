@@ -94,3 +94,10 @@ export const DeliveryContent = styled.div<DeliveryContentVariant>`
     }
   }
 `;
+
+export const Summary = styled.div`
+  display: flex;
+  div {
+    display: flex;
+  }
+`;
