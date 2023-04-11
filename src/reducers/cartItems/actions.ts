@@ -9,6 +9,7 @@ export enum ActionTypes {
   ADD_TO_CART = "ADD_TO_CART",
   UPDATE_CART = "UPDATE_CART",
   REMOVE_FROM_CART = "REMOVE_FROM_CART",
+  CLEAR_CART = "CLEAR_CART",
 }
 
 interface AddToCartAction {
@@ -24,10 +25,15 @@ interface UpdateCartAction {
   payload: { productId: number; newQuantity: number };
 }
 
+interface ClearCartAction {
+  type: ActionTypes.CLEAR_CART;
+}
+
 export type CartItemsAction =
   | AddToCartAction
   | RemoveFromCartAction
-  | UpdateCartAction;
+  | UpdateCartAction
+  | ClearCartAction;
 
 export const addToCartAction = (
   product: Product,
@@ -39,7 +45,9 @@ export const addToCartAction = (
   };
 };
 
-export const removeFromCartAction = (productId: number): RemoveFromCartAction => {
+export const removeFromCartAction = (
+  productId: number
+): RemoveFromCartAction => {
   return {
     type: ActionTypes.REMOVE_FROM_CART,
     payload: { productId },
@@ -53,5 +61,11 @@ export const updateCartAction = (
   return {
     type: ActionTypes.UPDATE_CART,
     payload: { productId, newQuantity },
+  };
+};
+
+export const clearCartAction = ():ClearCartAction => {
+  return {
+    type: ActionTypes.CLEAR_CART,
   };
 };
