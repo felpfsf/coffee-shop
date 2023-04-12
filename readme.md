@@ -1,5 +1,7 @@
 # README - Aplicação Coffee Shop
 
+![image](docs/coffee_delivery_ss01.png)
+
 ## Visão Geral
 
 A aplicação Coffee Shop é uma aplicação em React com TypeScript que tem como objetivo servir como um projeto didático para praticar conceitos de Context API e useReducer. Ela não usa nenhum banco de dados e autenticação de usuário, sendo que os dados dos produtos são salvos no local storage do navegador.
@@ -31,6 +33,18 @@ Para usar a aplicação Coffee Shop, abra seu navegador e navegue até `http://l
 ## Contribuindo
 
 Se você quiser contribuir para a aplicação Coffee Shop, sinta-se à vontade para enviar uma solicitação de pull request. Antes de enviar uma solicitação de pull request, certifique-se de que seu código segue as diretrizes de estilo de codificação e de que todos os testes passam.
+
+## Demonstração
+
+### Funcionalidade
+
+![image](docs/demonstração.gif)
+
+### Telas
+![image](docs/coffee_delivery_ss01.png)
+![image](docs/coffee_delivery_ss02.png)
+![image](docs/coffee_delivery_ss03.png)
+![image](docs/coffee_delivery_ss04.png)
 
 ## Licença
 
