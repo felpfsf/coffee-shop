@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useCart } from "@contexts/CartContext";
 import { formatCurrency } from "@utils/formatCurrency";
 import {
@@ -63,6 +63,8 @@ export interface OrderFormData {
 }
 
 export const Checkout = () => {
+  const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { cartItems, handleIsOrderSubmitted, clearCartItems } = useCart();
   const subtotal = cartItems.reduce((acc, item) => {
     return acc + item.quantity * item.product.price;
@@ -72,7 +74,7 @@ export const Checkout = () => {
   // React Hook Forms
   const {
     control,
-    formState: { isSubmitting, errors },
+    formState: { errors },
     handleSubmit,
     register,
     watch,
@@ -82,7 +84,6 @@ export const Checkout = () => {
       payment_options: "credit",
     },
   });
-  const navigate = useNavigate();
 
   const handleSubmitOrder = (data: ProductOrderType) => {
     const orderSummary = {
@@ -98,7 +99,9 @@ export const Checkout = () => {
     };
     const formData = { ...data, orderSummary };
     handleIsOrderSubmitted(true);
+    setIsSubmitting(true);
     setTimeout(() => {
+      setIsSubmitting(false);
       navigate("/success", {
         state: {
           formData: formData as OrderFormData,
@@ -220,7 +223,7 @@ export const Checkout = () => {
               }}
             />
           </ContentWrapper>
-          <pre>{JSON.stringify(formData, null, 2)}</pre>
+          {/* <pre>{JSON.stringify(formData, null, 2)}</pre> */}
         </div>
         <div>
           <Title>Café selecionados</Title>
