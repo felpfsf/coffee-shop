@@ -6,7 +6,7 @@
 
 A aplicação Coffee Shop é uma aplicação em React com TypeScript que tem como objetivo servir como um projeto didático para praticar conceitos de Context API e useReducer. Ela não usa nenhum banco de dados e autenticação de usuário, sendo que os dados dos produtos são salvos no local storage do navegador.
 
-Para estilização, foram utilizados styled-components e Radix UI para criar componentes acessíveis. O formulário de checkout utiliza o React Hook Forms.
+Para estilização, foram utilizados styled-components e Radix UI para criar componentes acessíveis. O formulário de checkout utiliza o React Hook Forms e Zod para a validação de dados de entrada.
 
 ## Recursos
 
